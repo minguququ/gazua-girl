@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/html2canvas/dist/html2canvas.min.js"></script>  
+    <script src="./node_modules/jquery/dist/jquery.js"></script>
+</head>
+<style>
+
+    body {
+        width: 600px;
+    }
+
+    #girl {
+        width: 600px;
+        height: 361px;
+        background-image: url("./gazua.jpeg");
+    }
+
+    #message {    
+        position: absolute;
+        top : 130px;
+        left : 158px;
+        vertical-align: middle;
+    }
+
+    .border {
+        position: absolute;
+        top : 130px;
+        left : 158px;
+        border: transparent;
+        width: 160px;    
+        height: 95px;        
+        cursor: text;
+    }
+
+    .block {
+        position: relative;        
+        color: red;
+        font-weight: bold;
+        font-size: 30px;
+        outline: none;
+        width: 160px;    
+        height: 95px;
+        text-align: center;
+        resize: none;
+        display: inline-block;        
+    }
+
+</style>
+<body>
+    <div id="panel">
+        <div id="girl"></div>
+        <div class="border">
+            <div class="block" id="input" contenteditable="true">click me</div>
+        </div>
+    </div>
+    <div>
+        <button id="capture">이미지만들기</button>
+        <button id="eraseAll">이미지 모두 지우기</button>
+    </div>
+</body>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        
+        var index =0;
+
+        function buillAlbum(canvas) {
+            var album = $("<div>").addClass("album");
+            index++;
+            var inside_album = $("<p>").html(index.toString()+" 이미지");
+            album.append(inside_album);
+            album.append(canvas);
+            $("body").append(album);
+        }
+
+        $("#capture").on("click", function() {
+            html2canvas(document.getElementById("panel")).then(function (canvas) {
+                //document.body.appendChild(canvas);
+                buillAlbum(canvas);
+            });    
+        });
+        
+
+        $("#eraseAll").on("click", function(){
+            $(".album").remove();
+            index=0;
+        });
+
+        $('#input').keyup(function (event) {
+            while ($(this).height() > 160) {
+                $(this).css('font-size', '-=1');
+            }
+            if (event.keyCode == 8 || event.keyCode == 46) {
+                while ($(this).height() <= 160 && $(this).css('font-size') <= "30px") {
+                    $(this).css('font-size', '+=1');
+                }
+                $(this).css('font-size', '-=1');
+            }
+        });
+    })
+</script>
+</html>

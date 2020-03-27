@@ -1,0 +1,10 @@
+{
+  "name": "gazua-girl",
+  "version": "1.0.0",
+  "main": "index.html",
+  "license": "MIT",
+  "dependencies": {
+    "html2canvas": "^1.0.0-rc.5",
+    "jquery": "^3.4.1"
+  }
+}
